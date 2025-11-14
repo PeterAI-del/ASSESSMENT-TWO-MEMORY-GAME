@@ -1,4 +1,11 @@
 # Memory Match Game
+# #Author:Dolapo Peter Abikoye (25021315)
+
+""" I acknowledge the use of ChatGPT (GPT-5, OpenAI, https://chat.openai.com/)
+ to assist in the creation and explanation of this code.
+ """
+ 
+ # Memory Match Game
 
 **Project Type:** Python Game  
 **Version:** Text-based (Console) & GUI (Tkinter)  
