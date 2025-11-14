@@ -1,14 +1,41 @@
 import tkinter as tk
 import random
 from tkinter import messagebox
+import time
 
 # ----------------------------
-# Memory Match Game (GUI) with Visual Enhancements
+# Memory Match Game (GUI) with visual and Gameplay Enhancement
 # ----------------------------
 class MemoryGameGUI:
-    def __init__(self, root, size=4):
+    def __init__(self, root):
         self.root = root
         self.root.title("Memory Match Game")
+        self.size = 4  # default grid size
+        self.buttons = {}
+        self.first_choice = None
+        self.second_choice = None
+        self.matches_found = 0
+        self.total_pairs = (self.size * self.size) // 2
+        self.attempts = 0
+        self.start_time = None
+        self.timer_running = False
+
+        self.create_main_menu()
+
+    # ----------------------------
+    # Main menu for grid size selection
+    # ----------------------------
+    def create_main_menu(self):
+        self.clear_window()
+        tk.Label(self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue").pack(pady=10)
+        tk.Label(self.root, text="Select grid size:", font=("Helvetica", 12)).pack(pady=5)
+        tk.Button(self.root, text="4 × 4", command=lambda: self.start_game(4)).pack(pady=5)
+        tk.Button(self.root, text="6 × 6", command=lambda: self.start_game(6)).pack(pady=5)
+
+    # ----------------------------
+    # Start a new game
+    # ----------------------------
+    def start_game(self, size):
         self.size = size
         self.buttons = {}
         self.first_choice = None
@@ -16,41 +43,73 @@ class MemoryGameGUI:
         self.matches_found = 0
         self.total_pairs = (size * size) // 2
         self.attempts = 0
+        self.start_time = time.time()
+        self.timer_running = True
 
         # Generate shuffled board
         letters = [chr(65 + i) for i in range(self.total_pairs)] * 2
         random.shuffle(letters)
         self.board = [letters[i * size:(i + 1) * size] for i in range(size)]
 
-        # GUI setup
         self.create_widgets()
+
+    # ----------------------------
+    # Clear the window
+    # ----------------------------
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy()
 
     # ----------------------------
     # Create game grid and UI
     # ----------------------------
     def create_widgets(self):
+        self.clear_window()
+
+        # Header
         header = tk.Label(
             self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue"
         )
         header.grid(row=0, column=0, columnspan=self.size, pady=10)
 
+        # Status and scoreboard
         self.status_label = tk.Label(self.root, text="Find all matching pairs!", font=("Helvetica", 12))
-        self.status_label.grid(row=1, column=0, columnspan=self.size, pady=(0, 10))
+        self.status_label.grid(row=1, column=0, columnspan=self.size, pady=(0, 5))
 
+        self.score_label = tk.Label(self.root, text="Attempts: 0 | Time: 0s", font=("Helvetica", 12))
+        self.score_label.grid(row=2, column=0, columnspan=self.size, pady=(0, 10))
+        self.update_timer()
+
+        # Restart button
+        tk.Button(self.root, text="🔄 Restart", command=lambda: self.start_game(self.size)).grid(row=3, column=0, columnspan=self.size, pady=5)
+
+        # Create buttons grid
         for r in range(self.size):
             for c in range(self.size):
                 btn = tk.Button(
-                    self.root, text="❓", width=8, height=3,
-                    font=("Helvetica", 16, "bold"),
+                    self.root, text="❓", width=6, height=3,
+                    font=("Helvetica", 14, "bold"),
                     command=lambda row=r, col=c: self.reveal_card(row, col)
                 )
-                btn.grid(row=r + 2, column=c, padx=5, pady=5)
+                btn.grid(row=r + 4, column=c, padx=3, pady=3)
+                # Hover effect
+                btn.bind("<Enter>", lambda e, b=btn: b.config(bg="lightblue"))
+                btn.bind("<Leave>", lambda e, b=btn: b.config(bg="SystemButtonFace"))
 
                 # Add hover effect
                 btn.bind("<Enter>", lambda e, b=btn: b.config(bg="lightblue"))
                 btn.bind("<Leave>", lambda e, b=btn: b.config(bg="SystemButtonFace"))
 
                 self.buttons[(r, c)] = btn
+
+    # ----------------------------
+    # Update timer every second
+    # ----------------------------
+    def update_timer(self):
+        if self.timer_running and self.start_time:
+            elapsed = int(time.time() - self.start_time)
+            self.score_label.config(text=f"Attempts: {self.attempts} | Time: {elapsed}s")
+            self.root.after(1000, self.update_timer)
 
     # ----------------------------
     # Reveal card on click
@@ -105,12 +164,13 @@ class MemoryGameGUI:
     # Game end dialog
     # ----------------------------
     def end_game(self):
+        self.timer_running = False
+        elapsed = int(time.time() - self.start_time)
         messagebox.showinfo(
             "Congratulations!",
-            f"🎉 You matched all pairs in {self.attempts} attempts!"
+            f"🎉 You matched all pairs in {self.attempts} attempts and {elapsed} seconds!"
         )
-        self.root.destroy()
-
+        self.create_main_menu()  # go back to grid selection menu
 
 # ----------------------------
 # Run the game
