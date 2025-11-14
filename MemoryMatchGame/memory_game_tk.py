@@ -4,7 +4,7 @@ from tkinter import messagebox
 import time
 
 # ----------------------------
-# Memory Match Game (GUI) with Gameplay Enhancements
+# Memory Match Game (GUI) with visual and Gameplay Enhancement
 # ----------------------------
 class MemoryGameGUI:
     def __init__(self, root):
@@ -67,7 +67,9 @@ class MemoryGameGUI:
         self.clear_window()
 
         # Header
-        header = tk.Label(self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue")
+        header = tk.Label(
+            self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue"
+        )
         header.grid(row=0, column=0, columnspan=self.size, pady=10)
 
         # Status and scoreboard
@@ -93,6 +95,11 @@ class MemoryGameGUI:
                 # Hover effect
                 btn.bind("<Enter>", lambda e, b=btn: b.config(bg="lightblue"))
                 btn.bind("<Leave>", lambda e, b=btn: b.config(bg="SystemButtonFace"))
+
+                # Add hover effect
+                btn.bind("<Enter>", lambda e, b=btn: b.config(bg="lightblue"))
+                btn.bind("<Leave>", lambda e, b=btn: b.config(bg="SystemButtonFace"))
+
                 self.buttons[(r, c)] = btn
 
     # ----------------------------
@@ -142,7 +149,6 @@ class MemoryGameGUI:
         self.first_choice = None
         self.second_choice = None
 
-        # Check for game completion
         if self.matches_found == self.total_pairs:
             self.end_game()
 
