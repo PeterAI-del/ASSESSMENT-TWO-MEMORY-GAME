@@ -1,7 +1,7 @@
 # Memory Match Game
 
 **Project Type:** Python Game  
-**Version:** Text-based (Console)  
+**Version:** Text-based (Console) & GUI (Tkinter)  
 **Assessment:** Assessment Two, Keele University Python Course
 
 ---
@@ -9,30 +9,50 @@
 ## Description
 
 This is a **Memory Match Game** implemented in Python.  
-Players try to find all matching pairs of cards in a console-based interface.  
 
-The repository currently contains the **text-based version** of the game.  
-A **GUI version** will be developed in a separate branch to enhance usability and visual experience.
+- Players try to find all matching pairs of cards.  
+- The repository contains both:  
+  - **Console version** – text-based, simple gameplay.  
+  - **GUI version** – enhanced interface with visual effects, timer, restart button, and adjustable grid sizes (4×4, 6×6).  
+
+The GUI version is developed in a separate branch (`gui-gameplay-enhancements`) for improved usability and visual experience.
 
 ---
 
 ## Features
 
-- Console-based text game  
-- Keeps track of player attempts  
-- Simple and easy-to-play memory matching mechanics  
-- Designed to be extended with a GUI in a separate branch
+### Console Version
+- Text-based interface  
+- Supports 4×4 and 6×6 grids  
+- Tracks player **attempts** and **time elapsed**  
+- Color-coded matched cards  
+
+### GUI Version (Tkinter)
+- Supports 4×4 and 6×6 grids  
+- **Restart button** to reset the game without closing the window  
+- **Timer** to track how fast the player finishes  
+- **Scoreboard**: attempts and time  
+- **Color-coded matched cards**  
+- **Hover effects** on buttons  
+- Dynamic font and button scaling  
+
+
+## 🛠 Dependencies
+
+- Python 3.x  
+- Tkinter (usually included with Python, otherwise install via `pip install tk`)  
+- Standard Python libraries: `random`, `time`, `messagebox` from `tkinter`  
 
 ---
 
 ## Game Play Instructions
 
 1. When the game starts, a board of hidden cards is displayed.  
-2. Each turn, the player selects **two cards** to flip.  
+2. Each turn, the player selects **two cards** to reveal.  
 3. If the cards match, they remain revealed.  
 4. If the cards do not match, they are hidden again.  
 5. The goal is to reveal all pairs in as few turns as possible.  
-6. The game ends when all pairs are found, and the number of attempts is displayed.
+6. The game ends when all pairs are found; attempts and elapsed time are displayed.  
 
 ### Example Board Layout (There's also a 6x6 grid) and the concept is the same
   1  2  3   4
@@ -52,13 +72,16 @@ D [] [] [] []
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/MemoryMatchGame.git
+git clone https://github.com/PeterAI-del/ASSESSMENT-TWO-MEMORY-GAME.git
 
 2. Navigate to the Folder using
-cd MemoryMatchGame
+cd ASSESSMENT-TWO-MEMORY-GAME
 
 3. Run the game
-memory_game.py
+python MemoryMatchGame/memory_game_console.py
+
+4. Run the GUI
+python MemoryMatchGame/memory_game_tk.py
 
 ### Example Turn
 
