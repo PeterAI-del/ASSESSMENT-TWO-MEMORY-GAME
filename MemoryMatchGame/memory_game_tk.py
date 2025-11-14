@@ -1,10 +1,9 @@
 import tkinter as tk
 import random
-import time
 from tkinter import messagebox
 
 # ----------------------------
-# Memory Match Game (GUI)
+# Memory Match Game (GUI) with Visual Enhancements
 # ----------------------------
 class MemoryGameGUI:
     def __init__(self, root, size=4):
@@ -30,7 +29,9 @@ class MemoryGameGUI:
     # Create game grid and UI
     # ----------------------------
     def create_widgets(self):
-        header = tk.Label(self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue")
+        header = tk.Label(
+            self.root, text="🧠 Memory Match Game", font=("Helvetica", 18, "bold"), fg="blue"
+        )
         header.grid(row=0, column=0, columnspan=self.size, pady=10)
 
         self.status_label = tk.Label(self.root, text="Find all matching pairs!", font=("Helvetica", 12))
@@ -44,13 +45,17 @@ class MemoryGameGUI:
                     command=lambda row=r, col=c: self.reveal_card(row, col)
                 )
                 btn.grid(row=r + 2, column=c, padx=5, pady=5)
+
+                # Add hover effect
+                btn.bind("<Enter>", lambda e, b=btn: b.config(bg="lightblue"))
+                btn.bind("<Leave>", lambda e, b=btn: b.config(bg="SystemButtonFace"))
+
                 self.buttons[(r, c)] = btn
 
     # ----------------------------
     # Reveal card on click
     # ----------------------------
     def reveal_card(self, row, col):
-        # Prevent clicking the same card twice or too fast
         if self.first_choice and self.second_choice:
             return
         btn = self.buttons[(row, col)]
@@ -61,7 +66,7 @@ class MemoryGameGUI:
             self.first_choice = (row, col)
         else:
             self.second_choice = (row, col)
-            self.root.after(700, self.check_match)  # small delay to show second card
+            self.root.after(700, self.check_match)
 
     # ----------------------------
     # Check if two revealed cards match
@@ -85,7 +90,6 @@ class MemoryGameGUI:
         self.first_choice = None
         self.second_choice = None
 
-        # Check for game completion
         if self.matches_found == self.total_pairs:
             self.end_game()
 
