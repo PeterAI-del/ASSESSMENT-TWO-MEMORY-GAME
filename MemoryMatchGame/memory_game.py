@@ -1,10 +1,9 @@
 # Memory Match Game
-# #Author:Dolapo Peter Abikoye
+# #Author:Dolapo Peter Abikoye (25021315)
 
 """ I acknowledge the use of ChatGPT (GPT-5, OpenAI, https://chat.openai.com/)
  to assist in the creation and explanation of this code.
  """
-
 
 import random
 import time
@@ -15,18 +14,15 @@ import time
 RED = "\033[91m"
 GREEN = "\033[92m"
 YELLOW = "\033[93m"
-BLUE = "\033[94m"
-MAGENTA = "\033[95m"
 CYAN = "\033[96m"
 RESET = "\033[0m"
 
 # ----------------------------
 # Function: Create game board
 # ----------------------------
-def create_board(size=4):
+def create_board(size):
     """
     Create and shuffle a game board with pairs of letters.
-    Default is 4x4 (16 cards → 8 pairs).
     """
     num_pairs = (size * size) // 2
     letters = [chr(65 + i) for i in range(num_pairs)] * 2
@@ -38,10 +34,6 @@ def create_board(size=4):
 # Function: Display the board
 # ----------------------------
 def display_board(board, revealed):
-    """
-    Display the current state of the board.
-    'revealed' is a set of tuples for coordinates that are face-up.
-    """
     size = len(board)
     print(CYAN + "\nBoard:" + RESET)
     print("   " + "  ".join(str(i) for i in range(size)))
@@ -57,7 +49,7 @@ def display_board(board, revealed):
     print()
 
 # ----------------------------
-# Function: Handle one turn
+# Function: Handle a single turn
 # ----------------------------
 def handle_turn(board, revealed, size):
     try:
@@ -95,21 +87,27 @@ def handle_turn(board, revealed, size):
 # Main Game Function
 # ----------------------------
 def play_game():
-    size = 4
+    print(CYAN + "\n=== Welcome to the Memory Match Game ===" + RESET)
+    size_choice = input("Select grid size: 4 for 4×4, 6 for 6×6 (default 4): ")
+    size = 6 if size_choice.strip() == "6" else 4
+
     board = create_board(size)
     revealed = set()
     attempts = 0
 
-    print(MAGENTA + "\n=== Welcome to the Memory Match Game ===" + RESET)
-    print(CYAN + "Find all matching pairs!" + RESET)
-    print(YELLOW + "Enter coordinates as: row column (e.g., 1 2)\n" + RESET)
+    start_time = time.time()
+
+    print(CYAN + f"\nYou selected {size}×{size} grid. Find all matching pairs!\n" + RESET)
 
     while len(revealed) < size * size:
         display_board(board, revealed)
-        handle_turn(board, revealed, size)
-        attempts += 1
+        if handle_turn(board, revealed, size):
+            attempts += 1
+        else:
+            attempts += 1  # count even incorrect attempts
 
-    print(GREEN + f"\n🎉 Congratulations! You matched all pairs in {attempts} attempts!" + RESET)
+    elapsed = int(time.time() - start_time)
+    print(GREEN + f"\n🎉 Congratulations! You matched all pairs in {attempts} attempts and {elapsed} seconds!" + RESET)
     print(CYAN + "Thanks for playing!\n" + RESET)
 
 # ----------------------------
@@ -122,3 +120,4 @@ if __name__ == "__main__":
         print(RED + "\n\nGame interrupted by user. Exiting safely..." + RESET)
     except Exception as e:
         print(RED + f"\nCritical error: {e}" + RESET)
+

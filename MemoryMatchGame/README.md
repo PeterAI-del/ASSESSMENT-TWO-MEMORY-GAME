@@ -34,7 +34,7 @@ A **GUI version** will be developed in a separate branch to enhance usability an
 5. The goal is to reveal all pairs in as few turns as possible.  
 6. The game ends when all pairs are found, and the number of attempts is displayed.
 
-### Example Board Layout
+### Example Board Layout (There's also a 6x6 grid) and the concept is the same
   1  2  3   4
 A [] [] [] []
 B [] [] [] []
