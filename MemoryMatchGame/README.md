@@ -21,6 +21,8 @@ The GUI version is developed in a separate branch (`gui-gameplay-enhancements`) 
 
 ## Features
 
+---
+
 ### Console Version
 - Text-based interface  
 - Supports 4×4 and 6×6 grids  
@@ -36,8 +38,10 @@ The GUI version is developed in a separate branch (`gui-gameplay-enhancements`) 
 - **Hover effects** on buttons  
 - Dynamic font and button scaling  
 
+---
 
-## 🛠 Dependencies
+## 🛠 Dependencies (Added dependency instructions.)
+
 
 - Python 3.x  
 - Tkinter (usually included with Python, otherwise install via `pip install tk`)  
